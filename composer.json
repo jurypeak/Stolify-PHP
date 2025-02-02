@@ -1,0 +1,19 @@
+{
+    "name": "judas/judas",
+    "description": "EmailSender",
+    "version": "2.8.5",
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "require": {
+        "php-http/guzzle7-adapter": "^1.1",
+        "nyholm/psr7": "^1.8",
+        "mailersend/mailersend": "^0.28.0"
+    }
+}

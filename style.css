@@ -1,0 +1,690 @@
+/* Default background color and some basic styling */
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding-bottom: 100px; /* Add padding at the bottom of the body to make room for the control panel and footer */
+    box-sizing: border-box;
+}
+
+/* Color Block Layer (Background behind all content) */
+.color-block {
+    background-color: #1f1f1f; /* Darker background */
+    width: 70%; /* Set a smaller width for the content block */
+    max-width: 800px; /* Optional: Limit maximum width */
+    margin: 40px auto; /* Center the block and add space around it */
+    padding: 30px 30px 45px; /* Add padding inside the color block */
+    border-radius: 8px; /* Optional: rounded corners for the block */
+}
+
+/* Header styles */
+header {
+    display: flex; /* Flexbox layout for header */
+    flex-direction: column; /* Arrange elements vertically */
+    align-items: center; /* Center all content */
+    justify-content: center;
+    padding: 20px 0;
+    margin-bottom: 20px;
+}
+
+/* Ensure the logo and title are inline */
+.logo-title {
+    display: flex; /* Make the logo and title inline */
+    align-items: center; /* Vertically center logo and title */
+    gap: 15px; /* Space between the logo and title */
+}
+
+/* Target the logo size only for the "logo-small" class */
+.logo-small .logo {
+    width: 150px; /* Adjust logo size to make it smaller */
+    height: auto;
+}
+
+/* Styling for the logo */
+header .logo {
+    width: 75px; /* Adjust logo size */
+    height: auto;
+}
+
+/* Styling for the title */
+header h1 {
+    font-family: 'Poppins', sans-serif; /* Poppins font for title */
+    font-size: 38px; /* Larger font size for the header */
+    font-weight: 700; /* Bold weight for the title */
+    color: #ffffff;
+    margin: 0; /* Remove default margin */
+}
+
+/* Styling for the subheading */
+header h2.subheading {
+    font-family: 'Arial', sans-serif; /* Arial font for subheading */
+    font-size: 20px; /* Adjust font size */
+    color: #8ec07c; /* Initial solid color for the subheading */
+    margin-top: 10px; /* Space between the title and subheading */
+    font-weight: 400; /* Normal weight for subheading */
+    text-align: center; /* Ensure the subheading is centered */
+    display: inline-block; /* To allow transitions and animations */
+    position: relative; /* Positioning for the effect */
+    transition: color 0.5s ease; /* Smooth transition for text color */
+}
+
+/* Rainbow text color animation */
+header h2.subheading:hover {
+    animation: rainbow-text 3s infinite; /* Apply the rainbow text animation */
+}
+
+/* Keyframes for horizontal moving rainbow text color */
+@keyframes rainbow-text {
+    0% { color: #fb4934; } /* Gruvbox Red */
+    14% { color: #fe8019; } /* Gruvbox Orange */
+    28% { color: #fabd2f; } /* Gruvbox Yellow */
+    42% { color: #b8bb26; } /* Gruvbox Green */
+    57% { color: #83a598; } /* Gruvbox Blue */
+    71% { color: #d3869b; } /* Gruvbox Purple */
+    85% { color: #8ec07c; } /* Gruvbox Aqua */
+    100% { color: #fb4934; } /* Gruvbox Red */
+}
+
+/* Form styling */
+form {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the form elements horizontally */
+}
+
+/* Username and password input box styling */
+input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%; /* Ensure input field takes full width of container */
+    max-width: 400px; /* Limit max width to 400px for consistency */
+    padding: 15px;
+    text-align: center;
+    font-size: 16px;
+    color: #ffffff;
+    border: 2px solid gray;
+    background-color: #1f1f1f;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 15px; /* Space between inputs */
+}
+
+/* Hover effect for input fields */
+input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover {
+    border: 2px solid #ffffff;
+    transition: border-color 500ms ease;
+}
+
+/* Focus effect for input fields */
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+    outline: none;
+    border: 3px solid #ffffff;
+}
+
+/* Password input container to position the eye icon */
+.password-container {
+    position: relative;
+    width: 100%; /* Same width as the input field */
+    max-width: 400px; /* Limit max width to match the input field */
+}
+
+/* Eye icon styling inside the password field */
+.eye-icon {
+    position: absolute;
+    right: 12px; /* Positioned inside the input box */
+    top: 25%;
+    font-size: 18px;
+    cursor: pointer;
+    color: #ffffff;
+    height: auto; /* Set height to match input field */
+    display: flex;
+    align-items: center; /* Align the icon vertically */
+}
+
+/* Submit button styles */
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #8ec07c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+input[type="submit"]:hover {
+    background-color: #7a9c6a;
+}
+
+.return-to-index {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Forgot Password and Register Links */
+.account-links {
+    display: flex;
+    gap: 4px; /* Space between the links */
+    justify-content: center;
+    margin-top: 30px;
+}
+
+/* Forgot Password Link */
+.forgot-password,
+.register,
+.login,
+.return-to-index {
+    color: #ffffff;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.forgot-password:hover,
+.register:hover,
+.login:hover,
+.return-to-index:hover {
+    color: #8ec07c;
+}
+
+/* Delimiter between links */
+.delimiter {
+    color: #ffffff;
+    font-size: 16px;
+    padding: 0 10px; /* Adds spacing around the delimiter */
+}
+
+/* Logo and Search Bar Container */
+.logo-search-container {
+    display: flex;
+    justify-content: center; /* Space between logo and search bar */
+    align-items: center; /* Vertically center logo and search bar */
+    margin-bottom: 30px;
+}
+
+/* Search Bar Container Styling */
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    position: relative; /* So that the icon can be positioned inside the input */
+    width: 400px; /* Adjust the width of the search bar */
+}
+
+/* Search Icon Styling */
+.search-icon {
+    position: absolute;
+    top: 18px;
+    left: 12px; /* Adjust the position of the icon inside the search bar */
+    font-size: 18px;
+    color: #ffffff; /* Light color for the icon */
+}
+
+/* Search Bar Styling */
+.search-bar {
+    width: 100%;
+    padding: 12px 12px 12px 50px; /* Add left padding to ensure space for the icon */
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #ffffff; /* Text color */
+}
+
+.search-bar::placeholder {
+    color: #ffffff; /* Make the placeholder text white */
+}
+
+#no-results {
+    color: red;
+    display: none;
+}
+
+#album-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Auto-resize grid items */
+    gap: 20px; /* Add space between the grid items */
+    justify-items: center; /* Center the grid items */
+    width: 100%;
+    max-width: 1200px; /* Limit the max width for better alignment */
+    margin: 0 auto; /* Center the grid horizontally */
+}
+
+/* Album grid container */
+.album-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Auto-resize grid items */
+    gap: 20px; /* Add space between the grid items */
+    justify-items: center; /* Center the grid items */
+    width: 100%;
+    max-width: 1200px; /* Limit the max width for better alignment */
+    margin: 0 auto; /* Center the grid horizontally */
+}
+
+/* Album grid item styling */
+.album-grid-item {
+    position: relative; /* Allow positioning of child elements relative to this container */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 180px;
+    padding: 16px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Play button hidden by default */
+.hover-play-btn {
+    position: absolute; /* Position it relative to the album grid item */
+    top: 30%; /* Center it vertically */
+    left: 50%; /* Center it horizontally */
+    transform: translate(-50%, -50%); /* Offset by 50% of its size to truly center */
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    color: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 60%; /* Make it round */
+    font-size: 20px; /* Larger play icon */
+    cursor: pointer;
+    opacity: 0; /* Initially hidden */
+    visibility: hidden; /* Initially hidden */
+    transition: opacity 0.3s ease, visibility 0s ease 0.3s;
+}
+
+/* Show play button on hover */
+.album-grid-item:hover .hover-play-btn {
+    opacity: 1; /* Make the play button visible */
+    visibility: visible; /* Make the button visible when hovering */
+}
+
+/* Album cover styling */
+.album-cover {
+    width: 100%;
+    height: auto;
+    max-height: 180px; /* Limit the height of the image */
+    border-radius: 8px;
+    margin-bottom: 15px;
+    object-fit: cover; /* Ensure it covers the container properly */
+}
+
+/* Title and description below the image */
+.album-grid-item h3,
+.album-grid-item .artist-name,
+.album-grid-item .album-description {
+    text-align: center;
+}
+
+/* Album grid item h3 */
+.album-grid-item h3 {
+    display: block;
+    width: 100%;
+    white-space: nowrap; /* Prevent the text from wrapping onto the next line */
+    overflow: hidden; /* Hide any overflowed text */
+    text-overflow: ellipsis; /* Add the ellipsis (...) when the text overflows */
+    text-align: center; /* Center-align the text */
+    font-size: 18px; /* Optional: adjust the font size if necessary */
+    margin: 0;
+}
+
+/* Artist name styling */
+.album-grid-item .artist-name {
+    font-size: 1rem;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+/* Album description styling */
+.album-grid-item .album-description {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Hover effect for album grid items */
+.album-grid-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Music Control Panel Styles */
+.music-control-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #1e1e1e;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000; /* Ensure it stays above other elements */
+}
+
+/* Music Control Panel Styles */
+.music-control-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1e1e1e;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000; /* Ensure it stays above other elements */
+}
+
+/* Wrapper for content */
+.music-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Distribute content */
+    padding: 15px 20px;
+}
+
+/* Music Info Section */
+.music-info {
+    text-align: left;
+    width: 35%; /* Adjust width for smaller screens */
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Song Title and Artist Styling */
+.song-title, .song-artist {
+    font-size: 18px;
+    color: white;
+    margin: 0;
+    text-align: left; /* Left-align the text */
+    white-space: nowrap; /* Prevent wrapping to a new line */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Display "..." for overflowing text */
+}
+
+/* Specific styling for song title and artist */
+.song-title {
+    font-size: 20px; /* Larger font for song title */
+}
+
+.song-artist {
+    font-size: 16px; /* Slightly smaller font for artist name */
+    color: #bbb; /* Lighter color for artist name */
+}
+
+/* Controls Section (centered buttons) */
+.controls {
+    display: flex;
+    justify-content: center; /* Center the buttons horizontally */
+    align-items: center; /* Vertically align items */
+    flex-grow: 1; /* Allow control buttons to grow */
+    gap: 20px;
+}
+
+/* Button Styles */
+.control-btn {
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 50%;
+    font-size: 25px; /* Bigger buttons for better usability */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+}
+
+.control-btn:hover {
+    background-color: #7a9c6a;
+}
+
+/* Icon Sizes */
+.fa-backward, .fa-play, .fa-forward {
+    font-size: 24px; /* Adjust icon size inside buttons */
+}
+
+/* Volume Control Section */
+.volume-control {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 35%; /* Full width to allow volume slider to align properly */
+    margin-top: 4px; /* Add space for the volume control */
+}
+
+/* Volume Slider Styling */
+.volume-slider {
+    width: 150px;
+    margin: 0 10px;
+    accent-color: #8ec07c; /* Slider color */
+}
+
+/* Footer styling */
+footer {
+    padding: 20px 30px;
+    background-color: #1f1f1f;
+    color: white;
+    font-size: 14px;
+    display: flex; /* Use flexbox to align items inline */
+    justify-content: center; /* Center the content horizontally */
+    align-items: center; /* Vertically center the content */
+    gap: 10px; /* Space between the elements */
+    border-radius: 8px; /* Add border radius to the footer */
+    width: 70%; /* Reduced width to make it smaller */
+    max-width: 800px; /* Optional: Limit maximum width */
+    margin: 40px auto; /* Center the footer and add some space around */
+}
+
+footer a.footer-email {
+    color: #8ec07c;
+    text-decoration: none;
+}
+
+footer a.footer-email:hover {
+    text-decoration: underline;
+}
+
+footer p {
+    margin: 0;
+}
+
+@media (max-width: 656px) {
+    .album-grid-container {
+        grid-template-columns: 1fr; /* Two columns for tablets */
+    }
+    footer {
+        padding: 10px 15px;
+        font-size: 9px;
+    }
+    .music-control-center {
+        width: 75%; /* Control center gets smaller on very small screens */
+    }
+    .song-title {
+        font-size: 12px;
+    }
+    .song-artist {
+        font-size: 10px;
+    }
+    .controls {
+        gap: 5px;
+    }
+    .control-btn {
+        padding: 8px; /* Even smaller padding */
+        font-size: 14px; /* Smaller font size for icons */
+        width: 30px; /* Adjust the button size */
+        height: 30px; /* Adjust the button size */
+    }
+    .fa-backward, .fa-play, .fa-forward {
+        font-size: 18px; /* Adjust icon size */
+    }
+    .color-block {
+        width: 70%; /* Make it even smaller for phones */
+        max-width: 500px; /* Set a max-width for phones */
+        padding: 12px 12px 18px; /* Reduce padding even more */
+    }
+    /* Target the logo size only for the "logo-small" class */
+    .logo-small .logo {
+        width: 40px; /* Adjust logo size to make it smaller */
+        padding-bottom: 12px;
+        height: auto;
+    }
+    header .logo {
+        width: 50px; /* Adjust logo size for phones */
+    }
+    .album-grid-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%; /* Make sure the grid items fill their available space */
+        max-width: 125px; /* Prevent them from getting too wide */
+        padding: 15px;
+        background-color: #f4f4f4;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden; /* Hide any overflow within the grid items */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition for hover effect */
+    }
+    /* Album cover styling */
+    .album-cover {
+        width: 100%;
+        height: auto;
+        max-height: 125px; /* Ensure the cover does not become too large */
+        border-radius: 8px;
+        margin-bottom: 15px;
+        object-fit: cover; /* Ensure the image scales correctly inside the container */
+    }
+    /* Hover effect for album grid items */
+    .album-grid-item:hover {
+        transform: translateY(-0);
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    }
+    /* Username and password input box styling */
+    input[type="text"], input[type="email"], input[type="password"] {
+        width: 100%; /* Ensure input field takes full width of container */
+        max-width: 400px; /* Limit max width to 400px for consistency */
+        padding: 8px;
+        text-align: center;
+        font-size: 8px;
+        color: #ffffff;
+        border: 1px solid gray;
+        background-color: #1f1f1f;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-bottom: 15px; /* Space between inputs */
+    }
+    /* Hover effect for input fields */
+    input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover {
+        border: 1px solid #ffffff;
+        transition: border-color 500ms ease;
+    }
+    /* Focus effect for input fields */
+    input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+        outline: none;
+        border: 2px solid #ffffff;
+    }
+    /* Logo and Search Bar Container */
+    .logo-search-container {
+        display: flex;
+        justify-content: center; /* Space between logo and search bar */
+        align-items: center; /* Vertically center logo and search bar */
+        margin-bottom: 0;
+    }
+    /* Search Bar Container Styling */
+    .search-bar-container {
+        display: flex;
+        align-items: center;
+        position: relative; /* So that the icon can be positioned inside the input */
+        width: 400px; /* Adjust the width of the search bar */
+    }
+    /* Search Icon Styling */
+    .search-icon {
+        position: absolute;
+        top: 6px;
+        left: 6px; /* Adjust the position of the icon inside the search bar */
+        font-size: 6px;
+        color: #ffffff; /* Light color for the icon */
+    }
+    /* Eye icon styling inside the password field */
+    .eye-icon {
+        position: absolute;
+        right: 12px; /* Positioned inside the input box */
+        top: 17%;
+        font-size: 14px;
+        cursor: pointer;
+        color: #ffffff;
+        height: auto; /* Set height to match input field */
+        display: flex;
+        align-items: center; /* Align the icon vertically */
+    }
+    /* Submit button styles */
+    input[type="submit"] {
+        padding: 10px 20px;
+        background-color: #8ec07c;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 10px;
+        margin-top: 10px;
+    }
+    input[type="submit"]:hover {
+        background-color: #7a9c6a;
+    }
+    .return-to-index {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    /* Forgot Password and Register Links */
+    .account-links {
+        display: flex;
+        gap: 4px; /* Space between the links */
+        justify-content: center;
+        margin-top: 20px;
+    }
+    /* Forgot Password Link */
+    .forgot-password,
+    .register,
+    .login,
+    .delimiter,
+    .return-to-index {
+        color: #ffffff;
+        font-size: 10px;
+        text-decoration: underline;
+    }
+    .volume-control {
+        margin-bottom: 3px;
+    }
+    /* Volume Slider Styling */
+    .volume-slider {
+        width: 70px;
+        height: 3px;
+        accent-color: #8ec07c; /* Slider color */
+    }
+    /* Style for the thumb (dot) on the volume slider */
+    .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none; /* Remove default appearance */
+        appearance: none;
+        width: 13px; /* Smaller width for the thumb */
+        height: 13px; /* Smaller height for the thumb */
+        border-radius: 50%; /* Make the thumb round */
+        background: #fff; /* Green color for the thumb */
+        cursor: pointer; /* Make the thumb clickable */
+        transition: background 0.3s ease; /* Smooth transition for hover effect */
+    }
+    /* For Firefox */
+    .volume-slider::-moz-range-thumb {
+        width: 13px; /* Smaller width for the thumb */
+        height: 13px; /* Smaller height for the thumb */
+        border-radius: 50%; /* Make the thumb round */
+        background: #fff; /* Green color for the thumb */
+        cursor: pointer; /* Make the thumb clickable */
+    }
+    /* For IE */
+    .volume-slider::-ms-thumb {
+        width: 13px; /* Smaller width for the thumb */
+        height: 13px; /* Smaller height for the thumb */
+        border-radius: 50%; /* Make the thumb round */
+        background: #fff; /* Green color for the thumb */
+        cursor: pointer; /* Make the thumb clickable */
+    }
+}
