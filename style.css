@@ -32,6 +32,7 @@ header {
     display: flex; /* Make the logo and title inline */
     align-items: center; /* Vertically center logo and title */
     gap: 15px; /* Space between the logo and title */
+    cursor: pointer;
 }
 
 /* Target the logo size only for the "logo-small" class */
@@ -106,6 +107,15 @@ input[type="text"], input[type="email"], input[type="password"] {
     border-radius: 4px;
     box-sizing: border-box;
     margin-bottom: 15px; /* Space between inputs */
+}
+
+#results-container h2{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    color: #ffffff;
+    font-size: 24px;
 }
 
 /* Hover effect for input fields */
@@ -199,7 +209,6 @@ input[type="submit"]:hover {
     display: flex;
     justify-content: center; /* Space between logo and search bar */
     align-items: center; /* Vertically center logo and search bar */
-    margin-bottom: 30px;
 }
 
 /* Search Bar Container Styling */
@@ -350,6 +359,14 @@ input[type="submit"]:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
+.no-albums {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    font-size: 16px;
+}
+
 /* Music Control Panel Styles */
 .music-control-panel {
     position: fixed;
@@ -487,48 +504,74 @@ footer p {
 }
 
 @media (max-width: 656px) {
+    .no-albums {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-size: 12px;
+    }
+    #results-container h2{
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        color: #ffffff;
+        font-size: 20px;
+    }
     .album-grid-container {
         grid-template-columns: 1fr; /* Two columns for tablets */
     }
+
     footer {
         padding: 10px 15px;
         font-size: 9px;
     }
+
     .music-control-center {
         width: 75%; /* Control center gets smaller on very small screens */
     }
+
     .song-title {
         font-size: 12px;
     }
+
     .song-artist {
         font-size: 10px;
     }
+
     .controls {
         gap: 5px;
     }
+
     .control-btn {
         padding: 8px; /* Even smaller padding */
         font-size: 14px; /* Smaller font size for icons */
         width: 30px; /* Adjust the button size */
         height: 30px; /* Adjust the button size */
     }
+
     .fa-backward, .fa-play, .fa-forward {
         font-size: 18px; /* Adjust icon size */
     }
+
     .color-block {
         width: 70%; /* Make it even smaller for phones */
         max-width: 500px; /* Set a max-width for phones */
         padding: 12px 12px 18px; /* Reduce padding even more */
     }
+
     /* Target the logo size only for the "logo-small" class */
     .logo-small .logo {
         width: 40px; /* Adjust logo size to make it smaller */
         padding-bottom: 12px;
         height: auto;
     }
+
     header .logo {
         width: 50px; /* Adjust logo size for phones */
     }
+
     .album-grid-item {
         display: flex;
         flex-direction: column;
@@ -543,6 +586,7 @@ footer p {
         overflow: hidden; /* Hide any overflow within the grid items */
         transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition for hover effect */
     }
+
     /* Album cover styling */
     .album-cover {
         width: 100%;
@@ -552,11 +596,13 @@ footer p {
         margin-bottom: 15px;
         object-fit: cover; /* Ensure the image scales correctly inside the container */
     }
+
     /* Hover effect for album grid items */
     .album-grid-item:hover {
         transform: translateY(-0);
         box-shadow: 0 0 0 rgba(0, 0, 0, 0);
     }
+
     /* Username and password input box styling */
     input[type="text"], input[type="email"], input[type="password"] {
         width: 100%; /* Ensure input field takes full width of container */
@@ -571,16 +617,19 @@ footer p {
         box-sizing: border-box;
         margin-bottom: 15px; /* Space between inputs */
     }
+
     /* Hover effect for input fields */
     input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover {
         border: 1px solid #ffffff;
         transition: border-color 500ms ease;
     }
+
     /* Focus effect for input fields */
     input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
         outline: none;
         border: 2px solid #ffffff;
     }
+
     /* Logo and Search Bar Container */
     .logo-search-container {
         display: flex;
@@ -588,6 +637,7 @@ footer p {
         align-items: center; /* Vertically center logo and search bar */
         margin-bottom: 0;
     }
+
     /* Search Bar Container Styling */
     .search-bar-container {
         display: flex;
@@ -595,6 +645,7 @@ footer p {
         position: relative; /* So that the icon can be positioned inside the input */
         width: 400px; /* Adjust the width of the search bar */
     }
+
     /* Search Icon Styling */
     .search-icon {
         position: absolute;
@@ -603,6 +654,7 @@ footer p {
         font-size: 6px;
         color: #ffffff; /* Light color for the icon */
     }
+
     /* Eye icon styling inside the password field */
     .eye-icon {
         position: absolute;
@@ -615,6 +667,7 @@ footer p {
         display: flex;
         align-items: center; /* Align the icon vertically */
     }
+
     /* Submit button styles */
     input[type="submit"] {
         padding: 10px 20px;
@@ -626,14 +679,17 @@ footer p {
         font-size: 10px;
         margin-top: 10px;
     }
+
     input[type="submit"]:hover {
         background-color: #7a9c6a;
     }
+
     .return-to-index {
         display: flex;
         justify-content: center;
         margin-top: 20px;
     }
+
     /* Forgot Password and Register Links */
     .account-links {
         display: flex;
@@ -641,6 +697,7 @@ footer p {
         justify-content: center;
         margin-top: 20px;
     }
+
     /* Forgot Password Link */
     .forgot-password,
     .register,
@@ -651,15 +708,18 @@ footer p {
         font-size: 10px;
         text-decoration: underline;
     }
+
     .volume-control {
         margin-bottom: 3px;
     }
+
     /* Volume Slider Styling */
     .volume-slider {
         width: 70px;
         height: 3px;
         accent-color: #8ec07c; /* Slider color */
     }
+
     /* Style for the thumb (dot) on the volume slider */
     .volume-slider::-webkit-slider-thumb {
         -webkit-appearance: none; /* Remove default appearance */
@@ -671,6 +731,7 @@ footer p {
         cursor: pointer; /* Make the thumb clickable */
         transition: background 0.3s ease; /* Smooth transition for hover effect */
     }
+
     /* For Firefox */
     .volume-slider::-moz-range-thumb {
         width: 13px; /* Smaller width for the thumb */
@@ -679,6 +740,7 @@ footer p {
         background: #fff; /* Green color for the thumb */
         cursor: pointer; /* Make the thumb clickable */
     }
+
     /* For IE */
     .volume-slider::-ms-thumb {
         width: 13px; /* Smaller width for the thumb */

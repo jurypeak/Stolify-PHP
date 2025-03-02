@@ -1,9 +1,6 @@
 ﻿<?php
-// Start output buffering to prevent any unwanted output before JSON response.
-ob_start();
-
-// Include Composer's autoload file (make sure MailerSend is installed using Composer)
-require __DIR__ . '/vendor/autoload.php';  // Adjust path if needed
+// Include Composers autoload file (make sure MailerSend is installed using Composer)
+require '../vendor/autoload.php';  // Adjust path if needed
 
 // Use statements to include classes from MailerSend
 use MailerSend\MailerSend;
@@ -25,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
 
         try {
             // Initialize MailerSend with your API key
-            $mailersend = new MailerSend(['api_key' => '']);  // Replace with your API key
+            $mailersend = new MailerSend(['api_key' => 'mlsn.ec01a0ac599102906691b25439487e4d305e89f5dee47c1b3851aaaa137e34b0']);  // Replace with your API key
 
             // Define recipient(s)
             $recipients = [
@@ -52,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
 
             // Send the email
             $response = $mailersend->email->send($emailParams);
-
             // Return success response
             echo json_encode(['status' => 'success', 'message' => 'Email has been sent successfully!']);
             exit;
@@ -69,8 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
     }
 }
 
-ob_end_flush();
-
 ?>
 
 <!DOCTYPE html>
@@ -79,20 +73,20 @@ ob_end_flush();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stolify</title>
-    <!-- Include jQuery (needed for toastr to work with AJAX) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- SweetAlert2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css" rel="stylesheet">
-    <!-- Your custom JS -->
-    <script src="script.js" defer></script>
-    <link rel="stylesheet" href="style.css"> <!-- Link to the external CSS file -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.all.min.js"></script>
+    <script src="../miscellaneous/background.js"></script>
+    <script src="../handlers/handleEmail.js"></script>
+    <script src="../miscellaneous/utils.js"></script>
+    <link rel="stylesheet" href="../style.css"> <!-- Link to the external CSS file -->
 </head>
 <body>
 
 <div class="color-block">
     <header>
         <div class="logo-title">
-            <img src="media/logo.svg" alt="Logo" class="logo">
+            <img src="../media/logo.svg" alt="Logo" class="logo">
             <h1>Stolify</h1>
         </div>
         <h2 class="subheading">We may get sued ;)</h2>
@@ -103,7 +97,7 @@ ob_end_flush();
         <input type="email" id="email" name="email" placeholder="Enter your email" required><br><br>
         <input type="submit" value="Send Link">
     </form>
-    <a href="index.php" class="return-to-index">Go Back</a>
+    <a href="login.php" class="return-to-index">Go Back</a>
 </div>
 
 <!-- Footer -->
@@ -111,9 +105,6 @@ ob_end_flush();
     <a href="mailto:support@stolify.com" class="footer-email">support@stolify.com</a> |
     <p>&copy; <span id="year"></span> Stolify. All rights reserved.</p>
 </footer>
-
-<!-- SweetAlert2 JS -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.all.min.js"></script>
 
 </body>
 </html>

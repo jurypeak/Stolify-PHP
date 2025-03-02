@@ -14,6 +14,10 @@
     "require": {
         "php-http/guzzle7-adapter": "^1.1",
         "nyholm/psr7": "^1.8",
-        "mailersend/mailersend": "^0.28.0"
+        "mailersend/mailersend": "^0.28.0",
+        "vlucas/phpdotenv": "^5.6",
+      "": "",
+      "ext-pdo": "*",
+      "ext-json": "*"
     }
 }
