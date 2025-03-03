@@ -25,11 +25,11 @@ $(document).ready(function() {
         // Perform AJAX request
         $.ajax({
             type: 'POST',
-            url: '/pages/register.php',  // The PHP script to handle registration
+            url: 'register.php',  // The PHP script to handle registration
             data: {username: username, password: password},  // Data to send
             dataType: 'json',  // Expecting JSON response
             success: function(response) {
-                console.log(response);  // Log the response for debugging
+                console.log(response); // Log the response for debugging
 
                 // Reset the button text and enable it again
                 submitButton.prop('disabled', false).val('Register');
@@ -44,8 +44,8 @@ $(document).ready(function() {
                         showConfirmButton: false,
                         backdrop: 'rgba(0, 0, 0, 0.5)'  // Lighter backdrop with less opacity
                     }).then(function() {
-                        // Redirect after success, if needed
-                        window.location.href = 'login.php'; // Redirect to login page after successful registration
+                        // Redirect to login page after successful registration
+                        window.location.href = 'login.php';
                     });
                 } else {
                     // Display error notification

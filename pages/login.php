@@ -6,13 +6,11 @@ use Dotenv\Dotenv;
 
 // Load environment variables
 $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
-
 $dotenv->load();
 
 // Connect to database
 $conn = ConnectDB($_ENV['SERVERNAME'], $_ENV['USERNAME'], $_ENV['PASSWORD'], $_ENV['DATABASE']);
 
-// Initialize response array
 $response = array();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -21,28 +19,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Validate the input
+    // Validate input
     if (empty($username) || empty($password)) {
         echo json_encode(['status' => 'error', 'message' => 'Both fields are required']);
         exit;
     }
 
-    // Create MySQLi connection (make sure to adjust your database connection details)
-    $conn = new mysqli('localhost', 'root', '', 'stolify_db');  // Change these details as needed
+    // Escape special characters to prevent SQL injection (though prepared statements handle this too)
+    $username = htmlspecialchars(trim($username)); // Remove extra spaces and special characters
+    $password = htmlspecialchars(trim($password));
 
-    // Check for database connection error
-    if ($conn->connect_error) {
-        echo json_encode(['status' => 'error', 'message' => 'Database connection failed: ' . $conn->connect_error]);
-        exit;
-    }
-
-    // Escape special characters in the username and password
-    $username = $conn->real_escape_string($username);
-    $password = $conn->real_escape_string($password);
-
-    // Prepare and execute the SQL query
-    $sql = "SELECT * FROM users WHERE username = '$username'";
-    $result = $conn->query($sql);
+    // Prepare the SQL query using a prepared statement
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username); // Bind the username parameter
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         // User exists, fetch the user data
@@ -62,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Close the connection
+    $stmt->close();
     $conn->close();
-
     exit;
 }
 ?>

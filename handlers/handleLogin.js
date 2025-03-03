@@ -7,7 +7,6 @@ $(document).ready(function() {
         const username = $('#username').val();
         const password = $('#password').val();
 
-
         // Disable the button and change text to "Logging In..."
         const submitButton = $('input[type="submit"]');
         submitButton.prop('disabled', true).val('Logging In...');
@@ -25,8 +24,18 @@ $(document).ready(function() {
                 submitButton.prop('disabled', false).val('Log In');
 
                 if (response.status === 'success') {
-                    // Redirect to dashboard or home page
-                    window.location.href = 'albums.php'; // Example redirection
+                    // Display success notification and then redirect
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Login Successful',
+                        text: response.message,
+                        timer: 3000,  // Set how long the notification will appear (3000 ms = 3 seconds)
+                        showConfirmButton: false,
+                        backdrop: 'rgba(0, 0, 0, 0.5)'  // Lighter backdrop with less opacity
+                    }).then(function() {
+                        // After the success notification is closed, redirect to the albums page
+                        window.location.href = 'albums.php'; // Example redirection
+                    });
                 } else {
                     // Display error notification
                     Swal.fire({
