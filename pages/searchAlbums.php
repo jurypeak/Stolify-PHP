@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Include the database connection
 require '../handlers/handleConnection.php';
 
@@ -67,19 +68,33 @@ $conn->close();
 </head>
 <body>
 
-<!-- Color Block Layer (Wrapper) -->
-<div class="color-block">
-
+<div class="top-panel">
+    <!-- Logo, Search Bar, and Account Panel -->
     <div class="logo-search-container">
-        <div class="logo-title logo-small" onclick="logoOnClick();">
-            <img src="../media/logo.svg" alt="Logo" class="logo">
+        <!-- Logo Section -->
+        <div class="logo-title logo-small">
+            <img src="../media/logo.svg" alt="Logo" class="logo" onclick="logoOnClick()">
         </div>
+
         <!-- Search Bar Section -->
         <div class="search-bar-container">
-            <input type="text" id="search" placeholder="What would you like to play?" class="search-bar" value="<?php echo htmlspecialchars($query); ?>">
+            <input type="text" id="search" placeholder="What would you like to play?" class="search-bar">
             <i class="fa fa-search search-icon"></i> <!-- Search Icon -->
+            <div id="no-results" style="display:none;">No results found.</div>
+        </div>
+
+        <!-- Account Section -->
+        <div class="account-container">
+            <button onclick="accountOnClick()" class="account-btn">
+                <i class="fa fa-user"></i> <!-- Account Icon -->
+                <span class="account-text">Account</span>
+            </button>
         </div>
     </div>
+</div>
+
+<!-- Color Block Layer (Wrapper) -->
+<div class="color-block">
 
     <!-- Search Results Section -->
     <section id="results-container">

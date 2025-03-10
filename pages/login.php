@@ -1,4 +1,5 @@
 <?php
+session_start();
 require '../handlers/handleConnection.php';
 require_once '../vendor/autoload.php';
 
@@ -34,6 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("s", $username); // Bind the username parameter
     $stmt->execute();
     $result = $stmt->get_result();
+
+    $_SESSION['username'] = $username;
+    $_SESSION['password'] = $password;
 
     if ($result->num_rows > 0) {
         // User exists, fetch the user data

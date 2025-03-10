@@ -1,10 +1,56 @@
-/* Default background color and some basic styling */
 body {
     font-family: Arial, sans-serif;
     min-height: 100vh;
     margin: 0;
+    padding-top: 100px;
     padding-bottom: 100px; /* Add padding at the bottom of the body to make room for the control panel and footer */
     box-sizing: border-box;
+}
+
+.artist-section {
+    color: white;
+}
+
+.artist-section h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#loginForm .account-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logout-btn {
+    color: white;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    margin-right: 10px; /* Space between buttons */
+    background-color: #f44336; /* Red color for Log Out */
+}
+
+#loginForm input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+}
+
+.artist-image {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    border-radius: 8px;
+    object-fit: cover;
 }
 
 /* Color Block Layer (Background behind all content) */
@@ -12,7 +58,7 @@ body {
     background-color: #1f1f1f; /* Darker background */
     width: 70%; /* Set a smaller width for the content block */
     max-width: 800px; /* Optional: Limit maximum width */
-    margin: 40px auto; /* Center the block and add space around it */
+    margin: 40px auto 0 auto; /* Center the block and add space around it */
     padding: 30px 30px 45px; /* Add padding inside the color block */
     border-radius: 8px; /* Optional: rounded corners for the block */
 }
@@ -27,6 +73,54 @@ header {
     margin-bottom: 20px;
 }
 
+/* Top Panel Styling */
+.top-panel {
+    background-color: #1f1f1f; /* Dark background for the panel */
+    color: white;
+    width: 100%;
+    position: fixed;
+    padding-top: 15px;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+}
+
+/* Container for Logo, Search Bar, and Account Panel */
+.logo-search-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+/* Account Section */
+.account-container {
+    display: flex;
+    align-items: center;
+    padding: 0 20px 10px 0;
+}
+
+.account-btn {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.account-btn i {
+    margin-right: 5px;
+}
+
+.account-text {
+    font-size: 14px;
+}
+
 /* Ensure the logo and title are inline */
 .logo-title {
     display: flex; /* Make the logo and title inline */
@@ -37,7 +131,8 @@ header {
 
 /* Target the logo size only for the "logo-small" class */
 .logo-small .logo {
-    width: 150px; /* Adjust logo size to make it smaller */
+    width: 75px; /* Adjust logo size to make it smaller */
+    padding: 0 55px 10px 10px;
     height: auto;
 }
 
@@ -87,7 +182,7 @@ header h2.subheading:hover {
 }
 
 /* Form styling */
-form {
+#loginForm form, #registrationForm form {
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
@@ -95,9 +190,9 @@ form {
 }
 
 /* Username and password input box styling */
-input[type="text"], input[type="email"], input[type="password"] {
+#registrationForm input[type="text"], input[type="email"], input[type="password"],
+#loginForm input[type="text"], input[type="email"], input[type="password"] {
     width: 100%; /* Ensure input field takes full width of container */
-    max-width: 400px; /* Limit max width to 400px for consistency */
     padding: 15px;
     text-align: center;
     font-size: 16px;
@@ -118,14 +213,14 @@ input[type="text"], input[type="email"], input[type="password"] {
     font-size: 24px;
 }
 
-/* Hover effect for input fields */
-input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover {
-    border: 2px solid #ffffff;
+#loginForm input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover,
+#registrationForm input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover {
+    border: 3px solid #ffffff;
     transition: border-color 500ms ease;
 }
 
-/* Focus effect for input fields */
-input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+#loginForm input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus,
+#registrationForm input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
     outline: none;
     border: 3px solid #ffffff;
 }
@@ -134,7 +229,6 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 .password-container {
     position: relative;
     width: 100%; /* Same width as the input field */
-    max-width: 400px; /* Limit max width to match the input field */
 }
 
 /* Eye icon styling inside the password field */
@@ -207,7 +301,6 @@ input[type="submit"]:hover {
 /* Logo and Search Bar Container */
 .logo-search-container {
     display: flex;
-    justify-content: center; /* Space between logo and search bar */
     align-items: center; /* Vertically center logo and search bar */
 }
 
@@ -230,13 +323,17 @@ input[type="submit"]:hover {
 
 /* Search Bar Styling */
 .search-bar {
-    width: 100%;
-    padding: 12px 12px 12px 50px; /* Add left padding to ensure space for the icon */
+    width: 100%; /* Ensure input field takes full width of container */
+    max-width: 400px; /* Limit max width to 400px for consistency */
+    padding: 15px;
+    text-align: center;
     font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    color: #ffffff; /* Text color */
+    color: #ffffff;
+    border: 2px solid gray;
+    background-color: #1f1f1f;
+    border-radius: 16px;
+    box-sizing: border-box;
+    margin-bottom: 15px; /* Space between inputs */
 }
 
 .search-bar::placeholder {
@@ -365,16 +462,6 @@ input[type="submit"]:hover {
     align-items: center;
     color: #ffffff;
     font-size: 16px;
-}
-
-/* Music Control Panel Styles */
-.music-control-panel {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    background-color: #1e1e1e;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
-    z-index: 1000; /* Ensure it stays above other elements */
 }
 
 /* Music Control Panel Styles */
@@ -511,6 +598,18 @@ footer p {
         color: #ffffff;
         font-size: 12px;
     }
+
+    .account-btn {
+        background-color: #444;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
     #results-container h2{
         justify-content: center;
         align-items: center;
@@ -526,6 +625,7 @@ footer p {
     footer {
         padding: 10px 15px;
         font-size: 9px;
+        width: 45%;
     }
 
     .music-control-center {
@@ -556,20 +656,25 @@ footer p {
     }
 
     .color-block {
-        width: 70%; /* Make it even smaller for phones */
+        width: 40%; /* Make it even smaller for phones */
         max-width: 500px; /* Set a max-width for phones */
-        padding: 12px 12px 18px; /* Reduce padding even more */
     }
 
     /* Target the logo size only for the "logo-small" class */
     .logo-small .logo {
-        width: 40px; /* Adjust logo size to make it smaller */
-        padding-bottom: 12px;
+        width: 65px; /* Adjust logo size to make it smaller */
+        padding: 0 0 10px 0;
         height: auto;
     }
 
     header .logo {
         width: 50px; /* Adjust logo size for phones */
+    }
+
+    .account-container {
+        display: flex;
+        align-items: center;
+        padding: 0 20px 10px 10px;
     }
 
     .album-grid-item {
@@ -578,7 +683,7 @@ footer p {
         justify-content: space-between;
         align-items: center;
         width: 100%; /* Make sure the grid items fill their available space */
-        max-width: 125px; /* Prevent them from getting too wide */
+        max-width: 225px; /* Prevent them from getting too wide */
         padding: 15px;
         background-color: #f4f4f4;
         border-radius: 8px;
@@ -591,7 +696,7 @@ footer p {
     .album-cover {
         width: 100%;
         height: auto;
-        max-height: 125px; /* Ensure the cover does not become too large */
+        max-height: 225px; /* Ensure the cover does not become too large */
         border-radius: 8px;
         margin-bottom: 15px;
         object-fit: cover; /* Ensure the image scales correctly inside the container */
@@ -603,29 +708,33 @@ footer p {
         box-shadow: 0 0 0 rgba(0, 0, 0, 0);
     }
 
-    /* Username and password input box styling */
-    input[type="text"], input[type="email"], input[type="password"] {
-        width: 100%; /* Ensure input field takes full width of container */
-        max-width: 400px; /* Limit max width to 400px for consistency */
-        padding: 8px;
+    #registrationForm input[type="text"], input[type="email"], input[type="password"],
+    #loginForm input[type="text"], input[type="email"], input[type="password"] {
+        width:100%; /* Ensure input field takes full width of container */
+        padding: 10px;
         text-align: center;
-        font-size: 8px;
+        font-size: 10px;
         color: #ffffff;
-        border: 1px solid gray;
+        border: 2px solid gray;
         background-color: #1f1f1f;
         border-radius: 4px;
         box-sizing: border-box;
         margin-bottom: 15px; /* Space between inputs */
     }
 
-    /* Hover effect for input fields */
-    input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover {
-        border: 1px solid #ffffff;
+    .password-container {
+        position: relative;
+        width: 100%; /* Same width as the input field */
+    }
+
+    #loginForm input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover,
+    #registrationForm input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover {
+        border: 2px solid #ffffff;
         transition: border-color 500ms ease;
     }
 
-    /* Focus effect for input fields */
-    input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+    #loginForm input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus,
+    #registrationForm input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
         outline: none;
         border: 2px solid #ffffff;
     }
@@ -643,15 +752,15 @@ footer p {
         display: flex;
         align-items: center;
         position: relative; /* So that the icon can be positioned inside the input */
-        width: 400px; /* Adjust the width of the search bar */
+        width: 350px; /* Adjust the width of the search bar */
     }
 
     /* Search Icon Styling */
     .search-icon {
         position: absolute;
-        top: 6px;
-        left: 6px; /* Adjust the position of the icon inside the search bar */
-        font-size: 6px;
+        top: 13px;
+        left: 12px; /* Adjust the position of the icon inside the search bar */
+        font-size: 2px;
         color: #ffffff; /* Light color for the icon */
     }
 
@@ -659,8 +768,8 @@ footer p {
     .eye-icon {
         position: absolute;
         right: 12px; /* Positioned inside the input box */
-        top: 17%;
-        font-size: 14px;
+        top: 25%;
+        font-size: 12px;
         cursor: pointer;
         color: #ffffff;
         height: auto; /* Set height to match input field */
@@ -707,6 +816,20 @@ footer p {
         color: #ffffff;
         font-size: 10px;
         text-decoration: underline;
+    }
+
+    .search-bar {
+        width: 100%; /* Ensure input field takes full width of container */
+        max-width: 400px; /* Limit max width to 400px for consistency */
+        padding: 12px;
+        text-align: center;
+        font-size: 12px;
+        color: #ffffff;
+        border: 2px solid gray;
+        background-color: #1f1f1f;
+        border-radius: 16px;
+        box-sizing: border-box;
+        margin-bottom: 11px; /* Space between inputs */
     }
 
     .volume-control {

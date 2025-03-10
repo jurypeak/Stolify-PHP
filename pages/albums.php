@@ -1,4 +1,5 @@
 <?php
+session_start();
 require '../handlers/handleConnection.php';
 require_once '../vendor/autoload.php';
 
@@ -46,21 +47,33 @@ $conn->close();
     <script src="../miscellaneous/utils.js"></script>
 </head>
 <body>
-
-<!-- Color Block Layer (Wrapper) -->
-<div class="color-block">
-
+<!-- Top Panel for Logo, Search Bar, and Account -->
+<div class="top-panel">
+    <!-- Logo, Search Bar, and Account Panel -->
     <div class="logo-search-container">
+        <!-- Logo Section -->
         <div class="logo-title logo-small">
             <img src="../media/logo.svg" alt="Logo" class="logo" onclick="logoOnClick()">
         </div>
+
         <!-- Search Bar Section -->
         <div class="search-bar-container">
             <input type="text" id="search" placeholder="What would you like to play?" class="search-bar">
             <i class="fa fa-search search-icon"></i> <!-- Search Icon -->
             <div id="no-results" style="display:none;">No results found.</div>
         </div>
+
+        <!-- Account Section -->
+        <div class="account-container">
+            <button onclick="accountOnClick()" class="account-btn">
+                <i class="fa fa-user"></i> <!-- Account Icon -->
+                <span class="account-text">Account</span>
+            </button>
+        </div>
     </div>
+</div>
+<!-- Color Block Layer (Wrapper) -->
+<div class="color-block">
 
     <!-- Albums Grid Layout -->
     <div class="album-grid-container" id="album-grid-container">
@@ -75,7 +88,9 @@ $conn->close();
                         <i class="fa fa-play"></i> <!-- Play Icon -->
                     </button>
                     <h3 class="album-name">' . htmlspecialchars($album['name']) . '</h3>
-                    <p class="artist-name">' . htmlspecialchars($album['artist']) . '</p>
+                    <p class="artist-name">
+                    <a href="artist.php?name=' . $album['artist'] . '">' . htmlspecialchars($album['artist']) . '</a>
+                    </p>
                     <p class="album-description">' . htmlspecialchars($album['year']) . ' • Album</p>
                 </div>';
             }
@@ -119,8 +134,6 @@ $conn->close();
     <p>&copy; <span id="year"></span> Stolify. All rights reserved.</p>
 </footer>
 
-</body>
-</html>
 
 
 

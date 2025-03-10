@@ -14,3 +14,7 @@ function togglePassword() {
 function logoOnClick() {
     window.location.href = 'albums.php';
 }
+
+function accountOnClick() {
+    window.location.href = 'account.php';
+}
