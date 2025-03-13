@@ -1,0 +1,194 @@
+@media (max-width: 656px) {
+
+    #registrationForm input[type="email"],
+    #registrationForm input[type="password"],
+    #loginForm input[type="email"],
+    #loginForm input[type="password"],
+    #registrationForm input[type="text"],
+    #loginForm input[type="text"],
+    #resetPasswordForm input[type="email"],
+    #accountForm input[type="password"],
+    #accountForm input[type="email"] {
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    #registrationForm input[type="submit"],
+    #loginForm input[type="submit"],
+    #resetPasswordForm input[type="submit"],
+    #deleteAccountForm input[type="submit"],
+    #accountForm input[type="submit"] {
+        padding: 5px 20px;
+        font-size: 14px;
+    }
+
+    .no-albums,
+    #results-container h2 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-size: 12px;
+    }
+
+    .account-btn {
+        background-color: #444;
+        color: #fff;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .album-grid-container {
+        grid-template-columns: 1fr;
+    }
+
+    footer, .music-control-center {
+        width: 75%;
+        font-size: 12px;
+    }
+
+    .song-title {
+        font-size: 12px;
+    }
+
+    .song-artist {
+        font-size: 10px;
+    }
+
+    .controls {
+        gap: 5px;
+    }
+
+    .control-btn {
+        padding: 8px;
+        font-size: 14px;
+        width: 30px;
+        height: 30px;
+    }
+
+    .fa-backward, .fa-play, .fa-forward {
+        font-size: 18px;
+    }
+
+    .color-block {
+        width: 75%;
+        max-width: 600px;
+    }
+
+    .logo-small .logo,
+    header .logo {
+        width: 65px;
+        height: auto;
+        padding-bottom: 10px;
+    }
+
+    .account-container {
+        display: flex;
+        align-items: center;
+        padding: 0 20px 10px 10px;
+    }
+
+    .album-grid-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        max-width: 225px;
+        padding: 15px;
+        background-color: #f4f4f4;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .album-cover {
+        width: 100%;
+        height: auto;
+        max-height: 225px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        object-fit: cover;
+    }
+
+    .album-grid-item:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .logo-search-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 0;
+    }
+
+    .search-bar-container {
+        display: flex;
+        align-items: center;
+        position: relative;
+        width: 350px;
+    }
+
+    .search-icon {
+        position: absolute;
+        top: 13px;
+        left: 12px;
+        font-size: 12px;
+        color: #fff;
+    }
+
+    .return-to-login,
+    .account-links,
+    .forgot-password,
+    .register,
+    .login,
+    .delimiter {
+        display: flex;
+        justify-content: center;
+        color: #ffffff;
+        font-size: 10px;
+        text-decoration: underline;
+        margin-top: 20px;
+    }
+
+    .search-bar {
+        width: 100%;
+        max-width: 400px;
+        padding: 12px;
+        text-align: center;
+        font-size: 12px;
+        color: #fff;
+        border: 2px solid gray;
+        background-color: #1f1f1f;
+        border-radius: 16px;
+        box-sizing: border-box;
+        margin-bottom: 11px;
+    }
+
+    .volume-control {
+        margin-bottom: 3px;
+    }
+
+    .volume-slider {
+        width: 70px;
+        height: 3px;
+        accent-color: #8ec07c;
+    }
+
+    .volume-slider::-webkit-slider-thumb,
+    .volume-slider::-moz-range-thumb,
+    .volume-slider::-ms-thumb {
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #fff;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+}

@@ -1,53 +1,42 @@
 <?php
-session_start();
-// Include the database connection
-require '../handlers/handleConnection.php';
 
-// Load environment variables
+session_start();
+require '../handlers/handleConnection.php';
 require_once '../vendor/autoload.php';
+
 use Dotenv\Dotenv;
+
 $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
-// Get the query parameter from the URL
 $query = isset($_GET['query']) ? $_GET['query'] : '';
 
-// Check if the query is empty and return an empty array if so
 if (empty($query)) {
     echo json_encode([]);
 }
 
-// Establish the database connection
 $conn = new mysqli($_ENV['SERVERNAME'], $_ENV['USERNAME'], $_ENV['PASSWORD'], $_ENV['DATABASE']);
 
-// Check the connection
 if ($conn->connect_error) {
     echo json_encode(["error" => "Connection failed: " . $conn->connect_error]);
 }
 
-// Fetch albums from the database based on the search query
 $sql = "SELECT * FROM albums WHERE name LIKE ? OR artist LIKE ?";
 $stmt = $conn->prepare($sql);
 
-// Sanitize the query input
 $searchTerm = "%" . $query . "%";
 
-// Bind the parameters to the SQL query
 $stmt->bind_param("ss", $searchTerm, $searchTerm);
 
-// Execute the query
 $stmt->execute();
 
-// Get the result
 $result = $stmt->get_result();
 
-// Fetch all albums from the result
 $filteredAlbums = [];
 while ($album = $result->fetch_assoc()) {
     $filteredAlbums[] = $album;
 }
 
-// Close the statement and connection
 $stmt->close();
 $conn->close();
 ?>
@@ -59,6 +48,7 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stolify</title>
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../mobile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="module" src="../handlers/handleMusic.js"></script>
@@ -69,34 +59,28 @@ $conn->close();
 <body>
 
 <div class="top-panel">
-    <!-- Logo, Search Bar, and Account Panel -->
-    <div class="logo-search-container">
-        <!-- Logo Section -->
+    <div class="top-panel-container">
         <div class="logo-title logo-small">
             <img src="../media/logo.svg" alt="Logo" class="logo" onclick="logoOnClick()">
         </div>
 
-        <!-- Search Bar Section -->
         <div class="search-bar-container">
             <input type="text" id="search" placeholder="What would you like to play?" class="search-bar">
-            <i class="fa fa-search search-icon"></i> <!-- Search Icon -->
+            <i class="fa fa-search search-icon"></i>
             <div id="no-results" style="display:none;">No results found.</div>
         </div>
 
-        <!-- Account Section -->
         <div class="account-container">
             <button onclick="accountOnClick()" class="account-btn">
-                <i class="fa fa-user"></i> <!-- Account Icon -->
+                <i class="fa fa-user"></i>
                 <span class="account-text">Account</span>
             </button>
         </div>
     </div>
 </div>
 
-<!-- Color Block Layer (Wrapper) -->
 <div class="color-block">
 
-    <!-- Search Results Section -->
     <section id="results-container">
         <h2>Search Results for: "<?php echo htmlspecialchars($query); ?>"</h2>
 
@@ -108,7 +92,7 @@ $conn->close();
                          data-year="<?php echo htmlspecialchars($album['year']); ?>">
                         <img src="<?php echo htmlspecialchars($album['cover_image']); ?>" alt="<?php echo htmlspecialchars($album['name']); ?> Cover" class="album-cover">
                         <button class="hover-play-btn">
-                            <i class="fa fa-play"></i> <!-- Play Icon -->
+                            <i class="fa fa-play"></i>
                         </button>
                         <h3><?php echo htmlspecialchars($album['name']); ?></h3>
                         <p class="artist-name"><?php echo htmlspecialchars($album['artist']); ?></p>
@@ -125,7 +109,6 @@ $conn->close();
 
 </div>
 
-<!-- Music Control Panel (Sidebar) -->
 <div class="music-control-panel">
     <div class="music-content">
         <div class="music-info">
@@ -135,24 +118,22 @@ $conn->close();
 
         <div class="controls">
             <button class="control-btn prev-btn">
-                <i class="fa fa-backward"></i> <!-- Previous song -->
+                <i class="fa fa-backward"></i>
             </button>
             <button class="control-btn play-btn">
-                <i class="fa fa-play"></i> <!-- Play/Pause -->
+                <i class="fa fa-play"></i>
             </button>
             <button class="control-btn next-btn">
-                <i class="fa fa-forward"></i> <!-- Next song -->
+                <i class="fa fa-forward"></i>
             </button>
         </div>
 
-        <!-- Volume Control -->
         <div class="volume-control">
             <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
         </div>
     </div>
 </div>
 
-<!-- Footer Section -->
 <footer>
     <a href="mailto:support@stolify.com" class="footer-email">support@stolify.com</a> |
     <p>&copy; <span id="year"></span> Stolify. All rights reserved.</p>

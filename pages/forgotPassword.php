@@ -1,8 +1,7 @@
 ﻿<?php
-// Include Composers autoload file (make sure MailerSend is installed using Composer)
-require '../vendor/autoload.php';  // Adjust path if needed
+require '../vendor/autoload.php';
 
-// Use statements to include classes from MailerSend
+use Dotenv\Dotenv;
 use MailerSend\MailerSend;
 use MailerSend\Helpers\Builder\Personalization;
 use MailerSend\Helpers\Builder\Recipient;
@@ -11,25 +10,24 @@ use MailerSend\Exceptions\MailerSendException;
 
 $response = array();
 
+$dotenv = Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv->load();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
 
     header('Content-Type: application/json');
 
-    // Validate the email
     if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
 
         $email = $_POST['email'];
 
         try {
-            // Initialize MailerSend with your API key
-            $mailersend = new MailerSend(['api_key' => 'mlsn.ec01a0ac599102906691b25439487e4d305e89f5dee47c1b3851aaaa137e34b0']);  // Replace with your API key
+            $mailersend = new MailerSend(['api_key' => $_ENV['API_KEY']]);  // Replace with your API key
 
-            // Define recipient(s)
             $recipients = [
                 new Recipient($email, 'User'),
             ];
 
-            // Personalize email content
             $personalization = [
                 new Personalization($email, [
                     'name' => 'User',
@@ -38,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
                 ]),
             ];
 
-            // Define email parameters
             $emailParams = (new EmailParams())
                 ->setFrom('MS_gveXs0@trial-o65qngkn7q8gwr12.mlsender.net')
                 ->setFromName('Stolify Support')
@@ -47,19 +44,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
                 ->setTemplateId('0r83ql3qn504zw1j')
                 ->setPersonalization($personalization);
 
-            // Send the email
             $response = $mailersend->email->send($emailParams);
-            // Return success response
             echo json_encode(['status' => 'success', 'message' => 'Email has been sent successfully!']);
             exit;
         } catch (MailerSendException $e) {
-            // Log the error and return failure response
             error_log('MailerSend Error: ' . $e->getMessage());
             echo json_encode(['status' => 'error', 'message' => 'Error sending email: ' . $e->getMessage()]);
             exit;
         }
     } else {
-        // Return error for invalid email
         echo json_encode(['status' => 'error', 'message' => 'Invalid email address.']);
         exit;
     }
@@ -73,13 +66,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stolify</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../mobile.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.all.min.js"></script>
     <script src="../miscellaneous/background.js"></script>
     <script src="../handlers/handleEmail.js"></script>
     <script src="../miscellaneous/utils.js"></script>
-    <link rel="stylesheet" href="../style.css"> <!-- Link to the external CSS file -->
 </head>
 <body>
 
@@ -92,15 +86,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
         <h2 class="subheading">We may get sued ;)</h2>
     </header>
 
-    <!-- Email reset form -->
     <form id="resetPasswordForm">
-        <input type="email" id="email" name="email" placeholder="Enter your email" required><br><br>
-        <input type="submit" value="Send Link">
+        <div class="input-container">
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+        <input type="submit" value="Reset Password">
     </form>
-    <a href="login.php" class="return-to-index">Go Back</a>
+    <a href="login.php" class="return-to-login">Go Back</a>
 </div>
 
-<!-- Footer -->
 <footer>
     <a href="mailto:support@stolify.com" class="footer-email">support@stolify.com</a> |
     <p>&copy; <span id="year"></span> Stolify. All rights reserved.</p>

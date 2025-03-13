@@ -1,26 +1,23 @@
-// Declare global variables
-let albums = {}; // Store albums dynamically
+let albums = {};
 let currentAlbum = null;
 let currentSongIndex = 0;
 let currentAudio = new Audio();
 let isPlaying = false;
 
-// Get elements for controlling playback
 const playButton = $('.play-btn');
 const nextButton = $('.next-btn');
 const prevButton = $('.prev-btn');
 const songTitle = $('#song-title');
 const songArtist = $('#song-artist');
 
-// Fetch albums from the database
 function loadAlbums() {
     $.ajax({
         url: '../handlers/handleAlbums.php',
         type: 'GET',
         dataType: 'json',
         success: function (data) {
-            albums = data; // Store fetched albums
-            console.log('Albums loaded:', albums); // Debugging
+            albums = data;
+            console.log('Albums loaded:', albums);
         },
         error: function (xhr, status, error) {
             console.error('Error loading albums:', error);
@@ -28,14 +25,13 @@ function loadAlbums() {
     });
 }
 
-// Function to start playing an album
 function startAlbumPlayback(albumName) {
     if (!albums[albumName]) {
         console.error('Album not found:', albumName);
         return;
     }
 
-    if (currentAlbum === albumName) return; // Prevent reloading the same album
+    if (currentAlbum === albumName) return;
 
     currentAlbum = albumName;
     currentSongIndex = 0;
@@ -49,7 +45,6 @@ function startAlbumPlayback(albumName) {
     };
 }
 
-// Function to play a song
 function playSong(song) {
     currentAudio.src = song.audioFile;
     currentAudio.load();
@@ -58,13 +53,11 @@ function playSong(song) {
     isPlaying = true;
 }
 
-// Function to set song info in the control panel
 function setSongInfo(song) {
     songTitle.text(song.title);
     songArtist.text(song.artist);
 }
 
-// Play/Pause button toggle
 playButton.on('click', function () {
     if (isPlaying) {
         currentAudio.pause();
@@ -76,38 +69,32 @@ playButton.on('click', function () {
     isPlaying = !isPlaying;
 });
 
-// Function to play the next song
 function nextSong() {
     if (!currentAlbum || !albums[currentAlbum]) return;
 
-    currentSongIndex = (currentSongIndex + 1) % albums[currentAlbum].length; // Loop back to the start
+    currentSongIndex = (currentSongIndex + 1) % albums[currentAlbum].length;
     setSongInfo(albums[currentAlbum][currentSongIndex]);
     playSong(albums[currentAlbum][currentSongIndex]);
 }
 
-// Function to play the previous song
 function prevSong() {
     if (!currentAlbum || !albums[currentAlbum]) return;
 
-    currentSongIndex = (currentSongIndex - 1 + albums[currentAlbum].length) % albums[currentAlbum].length; // Loop back to the last song
     setSongInfo(albums[currentAlbum][currentSongIndex]);
     playSong(albums[currentAlbum][currentSongIndex]);
 }
 
-// Event listeners for next/prev buttons
 nextButton.on('click', nextSong);
 prevButton.on('click', prevSong);
 
-// Listen for album clicks
 $(document).on('click', '.hover-play-btn', function (event) {
-    event.stopPropagation(); // Prevent triggering the parent .album-grid-item click
+    event.stopPropagation();
 
-    const albumName = $(this).closest('.album-grid-item').data('album'); // Get album name from parent
+    const albumName = $(this).closest('.album-grid-item').data('album');
     startAlbumPlayback(albumName);
 });
 
 
-// Load albums when the page loads
 $(document).ready(function () {
     loadAlbums();
 });

@@ -1,20 +1,89 @@
 <?php
 session_start();
+require '../handlers/handleConnection.php';
+require_once '../vendor/autoload.php';
+use Dotenv\Dotenv;
 
-// Check if the user is already logged in
 if (!isset($_SESSION['username'])) {
-    header("Location: login.php"); // Redirect to login page if not logged in
+    header("Location: login.php");
     exit();
 }
 
-// Handle logout
 if (isset($_POST['logout'])) {
-    session_unset();  // Unset all session variables
-    session_destroy();  // Destroy the session
-    header("Location: login.php");  // Redirect to login page
+    session_unset();
+    session_destroy();
+    header("Location: login.php");
     exit();
 }
+
+$dotenv = Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv->load();
+
+$conn = ConnectDB($_ENV['SERVERNAME'], $_ENV['USERNAME'], $_ENV['PASSWORD'], $_ENV['DATABASE']);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accountForm'])) {
+
+    $username = trim($_POST['username'] ?? '');
+    $password = trim($_POST['password'] ?? '');
+
+    if (empty($username) || empty($password)) {
+        echo json_encode(['status' => 'error', 'message' => 'Both fields are required']);
+        exit;
+    }
+
+    if (!isset($_SESSION['id'])) {
+        echo json_encode(['status' => 'error', 'message' => 'User ID not found. Please log in again.']);
+        exit;
+    }
+
+    $stmt = $conn->prepare("SELECT id FROM users WHERE id = ?");
+    $stmt->bind_param("i", $_SESSION['id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if (!$result->num_rows) {
+        echo json_encode(['status' => 'error', 'message' => 'User not found.']);
+        exit;
+    }
+
+    $_SESSION['username'] = $username;
+    $_SESSION['password'] = $password;
+
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    $stmt = $conn->prepare("UPDATE users SET username = ?, password = ? WHERE id = ?");
+    $stmt->bind_param("ssi", $username, $hashedPassword, $_SESSION['id']);
+
+    if ($stmt->execute()) {
+        echo json_encode(['status' => 'success', 'message' => 'Account details updated successfully!']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Error updating account details. Please try again later.']);
+    }
+
+    $stmt->close();
+    $conn->close();
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-account'])) {
+    $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
+    $stmt->bind_param("i", $_SESSION['id']);
+
+    if ($stmt->execute()) {
+        session_unset();
+        session_destroy();
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Your account has been deleted successfully.'
+        ]);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Error deleting account. Please try again later.']);
+    }
+    exit();
+}
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,17 +91,22 @@ if (isset($_POST['logout'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stolify</title>
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../mobile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.all.min.js"></script>
     <script type="module" src="../handlers/handleMusic.js"></script>
     <script type="module" src="../handlers/handleSearch.js"></script>
     <script src="../miscellaneous/background.js"></script>
     <script src="../miscellaneous/utils.js"></script>
+    <script src="../handlers/handleChange.js"></script>
+    <script src="../handlers/handleDeletion.js"></script>
 </head>
 <body>
-<!-- Top Panel for Logo, Search Bar, and Account -->
+
 <div class="top-panel">
-    <div class="logo-search-container">
+    <div class="top-panel-container">
         <div class="logo-title logo-small">
             <img src="../media/logo.svg" alt="Logo" class="logo" onclick="logoOnClick()">
         </div>
@@ -44,34 +118,36 @@ if (isset($_POST['logout'])) {
         </div>
 
         <div class="account-container">
-            <button onclick="accountOnClick()" class="account-btn">
-                <i class="fa fa-user"></i>
-                <span class="account-text">Account</span>
-            </button>
+            <form id="logoutForm" method="POST">
+                <button type="submit" class="logout-btn" name="logout">Logout</button>
+            </form>
         </div>
     </div>
 </div>
 
-<!-- Color Block Layer (Wrapper) -->
 <div class="color-block">
 
-    <!-- User Account Information -->
-    <form id="loginForm" class="account-form" method="POST">
-        <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($_SESSION['username']); ?>" required readonly><br><br>
-        <div class="password-container">
-            <input type="password" id="password" name="password" value="<?php echo htmlspecialchars($_SESSION['password']); ?>" required readonly>
-            <span id="eye-icon" class="eye-icon" onclick="togglePassword()"><i class="fa fa-eye"></i></span> <!-- Eye icon -->
+    <form id="accountForm" method="POST">
+        <div class="input-container">
+            <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($_SESSION['username']); ?>" required>
         </div>
-        <br><br>
-        <!-- Submit button -->
-        <input type="submit" value="Change Details">
+        <div class="input-container">
+            <input type="password" name="password" id="password" placeholder="Change Password.">
+            <span id="eye-icon" class="fa fa-eye" onclick="togglePassword()"></span>
+        </div>
+        <input type="submit" name="accountForm" value="Change Details">
+     </form>
 
-        <button type="submit" name="logout" class="logout-btn">Log Out</button>
-     <form>
+    <form id="deleteAccountForm" method="POST">
+        <input type="submit" name="delete-account" value="Delete Account" >
+    </form>
+
 </div>
 
-<!-- Footer Section -->
 <footer>
     <a href="mailto:support@stolify.com" class="footer-email">support@stolify.com</a> |
     <p>&copy; <span id="year"></span> Stolify. All rights reserved.</p>
 </footer>
+
+</body>
+</html>
