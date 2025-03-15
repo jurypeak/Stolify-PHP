@@ -1,7 +1,7 @@
 $(function () {
     $('#deleteAccountForm').submit(function (e) {
         e.preventDefault();
-
+        // Display a confirmation dialog using Swal.fire.
         Swal.fire({
             title: 'Are you sure?',
             text: "This action is irreversible. Your account will be permanently deleted.",
@@ -10,6 +10,8 @@ $(function () {
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
             confirmButtonText: 'Yes, delete it!'
+            // If the user clicks the 'Yes, delete it!' button, send an AJAX request to account.php with the 'delete-account'
+            // parameter set to 1. And receive a JSON response from account.php.
         }).then((result) => {
             if (!result.isConfirmed) return;
 
@@ -32,6 +34,8 @@ $(function () {
                         }
                     }
 
+                    // If the response status is 'success', display a success message using Swal.fire and redirect the user to
+                    // the login page after the user clicks the OK button.
                     const isSuccess = response.status === 'success';
 
                     Swal.fire({
@@ -44,6 +48,7 @@ $(function () {
                         if (isSuccess) window.location.href = 'login.php';
                     });
                 })
+                // If an error occurs while processing the request, display an error message using Swal.fire.
                 .fail((xhr, status, error) => {
                     console.error("AJAX Error:", status, error);
                     console.log("Server response text:", xhr.responseText);

@@ -4,11 +4,13 @@ require '../handlers/handleConnection.php';
 require_once '../vendor/autoload.php';
 use Dotenv\Dotenv;
 
+// If the user is not logged in, redirect them to the login page.
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
 
+// If the user clicks the logout button, unset the session and destroy it, then redirect them to the login page.
 if (isset($_POST['logout'])) {
     session_unset();
     session_destroy();
@@ -16,59 +18,74 @@ if (isset($_POST['logout'])) {
     exit();
 }
 
+// Load the environment variables.
 $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
+// Connect to the database.
 $conn = ConnectDB($_ENV['SERVERNAME'], $_ENV['USERNAME'], $_ENV['PASSWORD'], $_ENV['DATABASE']);
 
+// If the user submits the form to change their account details, update the database with the new details.
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accountForm'])) {
 
     $username = trim($_POST['username'] ?? '');
     $password = trim($_POST['password'] ?? '');
 
+    // If the username or password is empty, return an error message.
     if (empty($username) || empty($password)) {
         echo json_encode(['status' => 'error', 'message' => 'Both fields are required']);
         exit;
     }
 
+    // If the user ID is not set, return an error message.
     if (!isset($_SESSION['id'])) {
         echo json_encode(['status' => 'error', 'message' => 'User ID not found. Please log in again.']);
         exit;
     }
 
+    // Check if the user exists in the database.
     $stmt = $conn->prepare("SELECT id FROM users WHERE id = ?");
     $stmt->bind_param("i", $_SESSION['id']);
     $stmt->execute();
     $result = $stmt->get_result();
 
+    // If the user is not found, return an error message.
     if (!$result->num_rows) {
         echo json_encode(['status' => 'error', 'message' => 'User not found.']);
         exit;
     }
 
+    // Update the session variables with the new username and password.
     $_SESSION['username'] = $username;
     $_SESSION['password'] = $password;
 
+    // Hash the password before storing it in the database.
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
+    // Update the user's details in the database.
     $stmt = $conn->prepare("UPDATE users SET username = ?, password = ? WHERE id = ?");
     $stmt->bind_param("ssi", $username, $hashedPassword, $_SESSION['id']);
 
+    // If the query is successful, return a success message.
     if ($stmt->execute()) {
         echo json_encode(['status' => 'success', 'message' => 'Account details updated successfully!']);
+        // If the query fails, return an error message.
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Error updating account details. Please try again later.']);
     }
 
+    // Close the statement and the connection.
     $stmt->close();
     $conn->close();
     exit;
 }
 
+// If the user submits the form to delete their account, delete the account from the database.
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-account'])) {
     $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
     $stmt->bind_param("i", $_SESSION['id']);
 
+    // If the query is successful, unset the session and destroy it, then return a success message.
     if ($stmt->execute()) {
         session_unset();
         session_destroy();
@@ -76,9 +93,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-account'])) {
             'status' => 'success',
             'message' => 'Your account has been deleted successfully.'
         ]);
+        // If the query fails, return an error message.
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Error deleting account. Please try again later.']);
     }
+    // Close the statement and the connection.
     exit();
 }
 

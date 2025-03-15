@@ -5,13 +5,23 @@ require_once '../vendor/autoload.php';
 
 use Dotenv\Dotenv;
 
+// Load the environment variables.
 $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
+// Connect to the database.
 $conn = ConnectDB($_ENV['SERVERNAME'], $_ENV['USERNAME'], $_ENV['PASSWORD'], $_ENV['DATABASE']);
 
+// If the user is not logged in, redirect them to the login page.
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Get the artist name from the query string.
 $artistName = $_GET['name'] ?? '';
 
+// Get the artist details from the database.
 $artist = [];
 
 if ($artistName) {
@@ -26,7 +36,7 @@ if ($artistName) {
     }
     $stmt->close();
 }
-
+// Close the connection.
 $conn->close();
 ?>
 
@@ -70,14 +80,19 @@ $conn->close();
 <div class="color-block">
 
 <div class="artist-section">
+    // Display the artist details if any.
     <?php if (!empty($artist)): ?>
         <div class="artist-details">
+            // Display the artist name, image, and bio.
             <h1 class="artist-name"><?php echo htmlspecialchars($artist['name']); ?></h1>
+            // Check if the artist has an image.
             <?php if (!empty($artist['image'])): ?>
                 <img src="<?php echo htmlspecialchars($artist['image']); ?>" alt="Artist Image" class="artist-image">
+            // If the artist does not have an image, display a placeholder.
             <?php endif; ?>
             <p class="artist-bio"><?php echo nl2br(htmlspecialchars($artist['bio'])); ?></p>
         </div>
+    // If the artist is not found, display an error message.
     <?php else: ?>
         <h1>Artist not found.</h1>
     <?php endif; ?>

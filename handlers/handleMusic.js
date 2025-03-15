@@ -10,6 +10,7 @@ const prevButton = $('.prev-btn');
 const songTitle = $('#song-title');
 const songArtist = $('#song-artist');
 
+// Load albums from the database/handlers.
 function loadAlbums() {
     $.ajax({
         url: '../handlers/handleAlbums.php',
@@ -25,27 +26,33 @@ function loadAlbums() {
     });
 }
 
+// Start playing an album.
 function startAlbumPlayback(albumName) {
+    // Check if the album exists.
     if (!albums[albumName]) {
         console.error('Album not found:', albumName);
         return;
     }
 
+    // Prevent restarting the same album if it's already playing.
     if (currentAlbum === albumName) return;
 
     currentAlbum = albumName;
     currentSongIndex = 0;
     const albumSongs = albums[albumName];
 
+    // Set the song info and play the current song.
     setSongInfo(albumSongs[currentSongIndex]);
     playSong(albumSongs[currentSongIndex]);
 
+    // When the current song ends, play the next song.
     currentAudio.onended = function () {
         nextSong();
     };
 }
 
 function playSong(song) {
+    // Set the audio source, load the audio, and play it.
     currentAudio.src = song.audioFile;
     currentAudio.load();
     currentAudio.play().catch(error => console.error('Error playing audio:', error));
@@ -58,6 +65,7 @@ function setSongInfo(song) {
     songArtist.text(song.artist);
 }
 
+// Play or pause the current song when play button is clicked.
 playButton.on('click', function () {
     if (isPlaying) {
         currentAudio.pause();
@@ -69,6 +77,7 @@ playButton.on('click', function () {
     isPlaying = !isPlaying;
 });
 
+// Play the next song when the skip button are clicked.
 function nextSong() {
     if (!currentAlbum || !albums[currentAlbum]) return;
 
@@ -77,6 +86,7 @@ function nextSong() {
     playSong(albums[currentAlbum][currentSongIndex]);
 }
 
+// Play the previous song when the back button is clicked.
 function prevSong() {
     if (!currentAlbum || !albums[currentAlbum]) return;
 
@@ -87,13 +97,13 @@ function prevSong() {
 nextButton.on('click', nextSong);
 prevButton.on('click', prevSong);
 
+// Play the album when the hover play button is clicked.
 $(document).on('click', '.hover-play-btn', function (event) {
     event.stopPropagation();
 
     const albumName = $(this).closest('.album-grid-item').data('album');
     startAlbumPlayback(albumName);
 });
-
 
 $(document).ready(function () {
     loadAlbums();

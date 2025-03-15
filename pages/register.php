@@ -11,35 +11,57 @@ $conn = ConnectDB($_ENV['SERVERNAME'], $_ENV['USERNAME'], $_ENV['PASSWORD'], $_E
 
 $response = array();
 
+// If the user submits the registration form, check if the username is already registered.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    // Get the username and password from the form.
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+    // If the username or password is empty, return an error message.
     if (empty($username) || empty($password)) {
         echo json_encode(['status' => 'error', 'message' => 'Both fields are required']);
         exit;
     }
 
+    // Trim and sanitize the username and password.
     $username = htmlspecialchars(trim($username));
     $password = htmlspecialchars(trim($password));
 
+    // Hash the password.
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
-    $stmt->bind_param("ss", $username, $hashedPassword);
+    // Check if the username is already registered.
+    // Prepare the SQL statement.
+    $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->store_result();
 
-    if ($stmt->execute()) {
-        echo json_encode(['status' => 'success', 'message' => 'Registration successful!']);
+    // If the username is found, return an error message.
+    if ($stmt->num_rows > 0) {
+        echo json_encode(['status' => 'error', 'message' => 'Email is already registered.']);
+        // If the username is not found, insert the new user into the database.
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Error registering the user. Please try again later.']);
+        $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+        $stmt->bind_param("ss", $username, $hashedPassword);
+
+        // If the registration is successful, send a success message.
+        if ($stmt->execute()) {
+            echo json_encode(['status' => 'success', 'message' => 'Registration successful!']);
+            // If the registration is not successful, return an error message.
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Error registering the user. Please try again later.']);
+        }
     }
 
+    // Close the connection.
     $stmt->close();
     $conn->close();
     exit;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

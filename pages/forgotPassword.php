@@ -10,17 +10,23 @@ use MailerSend\Exceptions\MailerSendException;
 
 $response = array();
 
+// Load the environment variables.
 $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
+// When the form is submitted, send the email.
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
 
+    // Set the response header to JSON.
     header('Content-Type: application/json');
 
+    // Check if the email is valid.
     if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
 
+        // Get the email address from the form.
         $email = $_POST['email'];
 
+        // Send the email using the MailerSend API. https://developers.mailersend.com/
         try {
             $mailersend = new MailerSend(['api_key' => $_ENV['API_KEY']]);  // Replace with your API key
 
@@ -52,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
             echo json_encode(['status' => 'error', 'message' => 'Error sending email: ' . $e->getMessage()]);
             exit;
         }
+        // If the email is not valid, return an error message.
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Invalid email address.']);
         exit;

@@ -9,34 +9,48 @@ use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
+// Get the search query from the URL.
 $query = isset($_GET['query']) ? $_GET['query'] : '';
 
+// If the user is not logged in, redirect them to the login page.
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// If the search query is empty, return an empty array.
 if (empty($query)) {
     echo json_encode([]);
 }
 
+// Connect to the database.
 $conn = new mysqli($_ENV['SERVERNAME'], $_ENV['USERNAME'], $_ENV['PASSWORD'], $_ENV['DATABASE']);
 
+// If there is an error connecting to the database, return an error message.
 if ($conn->connect_error) {
     echo json_encode(["error" => "Connection failed: " . $conn->connect_error]);
 }
 
+// Prepare the SQL statement to search for albums.
 $sql = "SELECT * FROM albums WHERE name LIKE ? OR artist LIKE ?";
 $stmt = $conn->prepare($sql);
 
+// Bind the search term to the SQL statement.
 $searchTerm = "%" . $query . "%";
 
 $stmt->bind_param("ss", $searchTerm, $searchTerm);
 
+// Execute the SQL statement.
 $stmt->execute();
 
+// Get the results of the SQL statement.
 $result = $stmt->get_result();
-
 $filteredAlbums = [];
 while ($album = $result->fetch_assoc()) {
     $filteredAlbums[] = $album;
 }
 
+// Close the connection.
 $stmt->close();
 $conn->close();
 ?>
@@ -83,9 +97,10 @@ $conn->close();
 
     <section id="results-container">
         <h2>Search Results for: "<?php echo htmlspecialchars($query); ?>"</h2>
-
+        // If there are albums found, display them in a grid.
         <?php if (!empty($filteredAlbums)): ?>
             <div class="album-grid-container" id="album-grid-container">
+                // Loop through each album and display it in the grid.
                 <?php foreach ($filteredAlbums as $album): ?>
                     <div class="album-grid-item" data-album="<?php echo htmlspecialchars($album['name']); ?>"
                          data-artist="<?php echo htmlspecialchars($album['artist']); ?>"
@@ -98,8 +113,10 @@ $conn->close();
                         <p class="artist-name"><?php echo htmlspecialchars($album['artist']); ?></p>
                         <p class="album-description"><?php echo htmlspecialchars($album['year']); ?> • Album</p>
                     </div>
+                // End the loop.
                 <?php endforeach; ?>
             </div>
+        // If no albums are found, display a message.
         <?php else: ?>
             <div class="no-albums">
                 <p>No albums found for your search.</p>

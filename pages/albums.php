@@ -5,25 +5,38 @@ require_once '../vendor/autoload.php';
 
 use Dotenv\Dotenv;
 
+// Load the environment variables.
 $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
 
 $dotenv->load();
 
+// Connect to the database.
 $conn = ConnectDB($_ENV['SERVERNAME'], $_ENV['USERNAME'], $_ENV['PASSWORD'], $_ENV['DATABASE']);
 
+// If the user is not logged in, redirect them to the login page.
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Create an empty array to store the albums.
 $albums = [];
 
+// Get all albums from the database.
 $query = "SELECT * FROM albums";
 $result = $conn->query($query);
 
+// Store the albums in an array.
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $albums[] = $row;
     }
+    // If no albums are found, display a message.
 } else {
     echo "No albums found.";
 }
 
+// Close the connection.
 $conn->close();
 ?>
 
@@ -69,7 +82,9 @@ $conn->close();
 
     <div class="album-grid-container" id="album-grid-container">
         <?php
+        // Check if there are any albums available.
         if (!empty($albums)) {
+            // Loop through the albums and display them.
             foreach ($albums as $album) {
                 echo '
                 <div class="album-grid-item" data-album="' . htmlspecialchars($album['name']) . '" data-artist="' . htmlspecialchars($album['artist']) . '" data-year="' . htmlspecialchars($album['year']) . '">
@@ -84,6 +99,7 @@ $conn->close();
                     <p class="album-description">' . htmlspecialchars($album['year']) . ' • Album</p>
                 </div>';
             }
+            // If no albums are available, display a message.
         } else {
             echo '<p>No albums available.</p>';
         }

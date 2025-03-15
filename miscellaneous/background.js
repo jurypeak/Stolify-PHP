@@ -1,4 +1,4 @@
-// background.js
+// Picks a random background image from a list of images and sets it as the background image of the page.
 function setRandomBackground() {
     const backgroundImages = [
         '../media/wallpaper1.jpg',
@@ -9,10 +9,9 @@ function setRandomBackground() {
     const randomIndex = Math.floor(Math.random() * backgroundImages.length);
     document.body.style.backgroundImage = `url('${backgroundImages[randomIndex]}')`;
 
-    // Prevent background image from repeating
     document.body.style.backgroundRepeat = 'no-repeat';
     document.body.style.backgroundAttachment = 'fixed';
-    document.body.style.backgroundSize = 'cover';  // Ensures the image covers the full screen
+    document.body.style.backgroundSize = 'cover';
 }
 
 window.onload = setRandomBackground;

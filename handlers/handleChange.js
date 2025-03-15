@@ -5,10 +5,10 @@ $(document).ready(function() {
         const username = $('input[name="email"]').val();
         const password = $('input[name="password"]').val();
 
-
         const submitButton = $('#accountForm button[type="submit"]');
         submitButton.prop('disabled', true).val('Changing...');
 
+        // Send an AJAX request to account.php with the username and password as data. And receive a JSON response from account.php.
         $.ajax({
             type: 'POST',
             url: 'account.php',
@@ -18,6 +18,8 @@ $(document).ready(function() {
                 password: password,
             },
             dataType: 'json',
+            // If the response status is 'success', display a success message using Swal.fire and
+            // redirect the user to the account page after the user clicks the OK button.
             success: function(response) {
                 console.log(response);
 
@@ -34,6 +36,7 @@ $(document).ready(function() {
                     }).then(function() {
                         window.location.href = 'account.php';
                     });
+                    // If the response status is not 'success', display an error message using Swal.fire.
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -45,6 +48,7 @@ $(document).ready(function() {
                     });
                 }
             },
+            // If an error occurs while processing the request, display an error message using Swal.fire.
             error: function(xhr, status, error) {
                 console.log("AJAX Error: ", error);
 

@@ -12,35 +12,46 @@ $conn = ConnectDB($_ENV['SERVERNAME'], $_ENV['USERNAME'], $_ENV['PASSWORD'], $_E
 
 $response = array();
 
+// If the user submits the login form, check if the username and password are correct.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    // Get the username and password from the form.
+    // Trim and sanitize the username and password.
     $username = trim($_POST['username'] ?? '');
     $password = trim($_POST['password'] ?? '');
 
+    // If the username or password is empty, return an error message.
     if (empty($username) || empty($password)) {
         echo json_encode(['status' => 'error', 'message' => 'Both fields are required']);
         exit;
     }
 
+    // Check if the user exists in the database.
+    // Prepare the SQL statement.
     $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
 
+    // If the user is found, check if the password is correct.
     if ($user = $result->fetch_assoc()) {
         if (password_verify($password, $user['password'])) {
             $_SESSION['id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['password'] = $user['password'];
 
+            // Send a success message if the login is successful.
             echo json_encode(['status' => 'success', 'message' => 'Login successful']);
+            // If the user is not found, return an error message.
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid username or password']);
         }
+        // Any other error, return an error message.
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Invalid username or password']);
     }
 
+    // Close the connection.
     $stmt->close();
     $conn->close();
     exit;

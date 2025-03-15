@@ -1,3 +1,4 @@
+// When the fa-fa-eye icon is clicked, the password field will toggle between text and password types.
 function togglePassword() {
     const passwordField = document.getElementById('password');
     const eyeIcon = document.getElementById('eye-icon');
@@ -12,11 +13,11 @@ function togglePassword() {
         eyeIcon.classList.add('fa-eye');
     }
 }
-
+// When the logo on pages after login is clicked, the user will be redirected to the albums page.
 function logoOnClick() {
     window.location.href = 'albums.php';
 }
-
+// When the account icon is clicked, the user will be redirected to the account page.
 function accountOnClick() {
     window.location.href = 'account.php';
 }
