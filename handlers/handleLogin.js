@@ -15,6 +15,8 @@ $(document).ready(function() {
         }
         // Send an AJAX request to login.php with the username and password as data. And receive a JSON response
         // from login.php.
+        // https://stackoverflow.com/questions/6009206/what-is-ajax-and-how-does-it-work
+        // https://sweetalert2.github.io/
         $.ajax({
             type: 'POST',
             url: 'login.php',

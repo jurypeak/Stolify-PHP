@@ -9,6 +9,8 @@ $(document).ready(function() {
         submitButton.prop('disabled', true).val('Changing...');
 
         // Send an AJAX request to account.php with the username and password as data. And receive a JSON response from account.php.
+        // https://stackoverflow.com/questions/6009206/what-is-ajax-and-how-does-it-work
+        // https://sweetalert2.github.io/
         $.ajax({
             type: 'POST',
             url: 'account.php',

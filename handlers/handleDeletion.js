@@ -2,6 +2,7 @@ $(function () {
     $('#deleteAccountForm').submit(function (e) {
         e.preventDefault();
         // Display a confirmation dialog using Swal.fire.
+        // https://sweetalert2.github.io/
         Swal.fire({
             title: 'Are you sure?',
             text: "This action is irreversible. Your account will be permanently deleted.",

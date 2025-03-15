@@ -5,6 +5,8 @@ $(document).ready(function() {
         const email = $('#email').val();
         const submitButton = $('input[type="submit"]').prop('disabled', true).val('Sending...');
         // Send an AJAX request to forgotPassword.php with the email as data. And receive a JSON response from forgotPassword.php.
+        // https://stackoverflow.com/questions/6009206/what-is-ajax-and-how-does-it-work
+        // https://sweetalert2.github.io/
         $.post('pages/forgotPassword.php', { email }, function(response) {
             submitButton.prop('disabled', false).val('Send Link');
             // If the response status is 'success', display a success message using Swal.fire.
